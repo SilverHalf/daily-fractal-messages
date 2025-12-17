@@ -52,11 +52,15 @@ def build_daily_message(role_id: str) -> str:
     cms_that_are_daily, fractals_with_npng, daily_annoying = get_daily_info()
     daily_msg += "\n\n**Fractals:**"
     if any(cms_that_are_daily):
-        daily_msg += f"\n{', '.join(cms_that_are_daily)} {'are' if len(cms_that_are_daily) > 1 else 'is'} daily today!"
+        daily_msg += f"\n{enunciate(cms_that_are_daily)} {'are' if len(cms_that_are_daily) > 1 else 'is'} daily today!"
+    else:
+        daily_msg += "\nNo CMs are daily today."
     if any(daily_annoying):
-        daily_msg += f"\n{', '.join(daily_annoying)} {'are' if len(daily_annoying) > 1 else 'is'} are unfortunatly{' also' if any(cms_that_are_daily) else ''} daily."
+        daily_msg += f"\nUnfortunatly, {enunciate(daily_annoying)} {'are' if len(daily_annoying) > 1 else 'is'}{' also' if any(cms_that_are_daily) else ''} daily."
     if any(fractals_with_npng):
-        daily_msg += f"\n{', '.join(fractals_with_npng)} {'have' if len(fractals_with_npng) > 1 else 'has'} No Pain, No Gain."
+        daily_msg += f"\n{enunciate(fractals_with_npng)} {'have' if len(fractals_with_npng) > 1 else 'has'} No Pain, No Gain."
+    else:
+        daily_msg += "\nNo fractals have No Pain, No Gain today!"
     daily_msg += "\nReact with ✅ if you can make it today or ❌ if you skip."
 
     return daily_msg
@@ -141,11 +145,23 @@ def get_daily_index() -> int:
     if not is_leap_year and total_days_passed > 58:
         total_days_passed += 1
 
-    return total_days_passed
+    return total_days_passed + 1
 
 
 def get_full_fractal_name(fractal: str) -> str:
     return FRACTALS[fractal]["name"]["en"]
+
+
+def enunciate(list: list[str]) -> str:
+    """Turns a list ['a', 'b', 'c'] into a string 'a, b and c'"""
+
+    if len(list) == 1:
+        return list[0]
+
+    string = ", ".join(list[:-1])
+    string += f" and {list[-1]}"
+
+    return string
 
 
 if __name__ == "__main__":
