@@ -145,7 +145,7 @@ def get_daily_index() -> int:
     if not is_leap_year and total_days_passed > 58:
         total_days_passed += 1
 
-    return total_days_passed + 1
+    return total_days_passed
 
 
 def get_full_fractal_name(fractal: str) -> str:
