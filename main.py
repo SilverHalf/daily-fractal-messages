@@ -9,7 +9,14 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-CM_FRACTALS = ["kinfall", "nightmare", "sunqua_peak", "silent_surf", "lonely_tower"]
+CM_FRACTALS = [
+    "kinfall",
+    "nightmare",
+    "shattered_observatory",
+    "sunqua_peak",
+    "silent_surf",
+    "lonely_tower",
+]
 ANNOYING_FRACTALS = ["aquatic_ruins", "sirens_reef", "deepstone", "twilight_oasis"]
 
 
