@@ -9,3 +9,5 @@ WEBHOOK = 'https://discord.com/api/webhooks/...'
 ```
 
 Install required libraries using `uv venv && uv sync`.
+
+Fractal instabilities are calculated using [this data](https://github.com/Invisi/gw2-fotm-instabilities/tree/master).
