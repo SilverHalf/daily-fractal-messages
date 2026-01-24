@@ -17,7 +17,6 @@ CM_FRACTALS = [
     "silent_surf",
     "lonely_tower",
 ]
-ANNOYING_FRACTALS = ["aquatic_ruins", "sirens_reef", "deepstone", "twilight_oasis"]
 
 
 def load_data(category: str) -> dict:
@@ -56,14 +55,13 @@ def build_daily_message(role_id: str) -> str:
     daily_joke = fetchJoke()
     daily_msg += f"\n\n**Joke of the day:**\n{daily_joke}"
 
-    cms_that_are_daily, fractals_with_npng, daily_annoying = get_daily_info()
+    cms_that_are_daily, fractals_with_npng, daily_non_cm = get_daily_info()
     daily_msg += "\n\n**Fractals:**"
     if any(cms_that_are_daily):
         daily_msg += f"\n{enunciate(cms_that_are_daily)} {'are' if len(cms_that_are_daily) > 1 else 'is'} daily today!"
     else:
         daily_msg += "\nNo CMs are daily today."
-    if any(daily_annoying):
-        daily_msg += f"\nUnfortunatly, {enunciate(daily_annoying)} {'are' if len(daily_annoying) > 1 else 'is'}{' also' if any(cms_that_are_daily) else ''} daily."
+    daily_msg += f"\n{'Other ' if any(cms_that_are_daily) else ''}T4{'s are' if len(daily_non_cm) > 1 else ' is'} {enunciate(daily_non_cm)}."
     if any(fractals_with_npng):
         daily_msg += f"\n{enunciate(fractals_with_npng)} {'have' if len(fractals_with_npng) > 1 else 'has'} No Pain, No Gain."
     else:
@@ -92,18 +90,18 @@ def get_daily_info():
     cms_that_are_daily = [
         get_full_fractal_name(cm) for cm in CM_FRACTALS if cm in daily_fractals
     ]
+    daily_non_cm = [
+        get_full_fractal_name(fractal)
+        for fractal in daily_fractals
+        if get_full_fractal_name(fractal) not in cms_that_are_daily
+    ]
     fractals_with_npng = [
         get_full_fractal_name(frac)
         for frac, instabs in daily_instabs.items()
         if "No Pain, No Gain" in instabs
     ]
-    daily_annoying = [
-        get_full_fractal_name(frac)
-        for frac in daily_fractals
-        if frac in ANNOYING_FRACTALS
-    ]
 
-    return cms_that_are_daily, fractals_with_npng, daily_annoying
+    return cms_that_are_daily, fractals_with_npng, daily_non_cm
 
 
 def get_daily_fractals(daily_index: int) -> list[str]:
@@ -172,4 +170,6 @@ def enunciate(list: list[str]) -> str:
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    msg = build_daily_message("1342934440778928148")
+    print(msg)
