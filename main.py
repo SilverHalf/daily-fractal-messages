@@ -170,6 +170,4 @@ def enunciate(list: list[str]) -> str:
 
 
 if __name__ == "__main__":
-    # main()
-    msg = build_daily_message("1342934440778928148")
-    print(msg)
+    main()
